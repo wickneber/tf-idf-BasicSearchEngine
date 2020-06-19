@@ -1,0 +1,136 @@
+Metadata-Version: 1.0
+Name: PGen
+Version: 0.2.1
+Summary: Useful tool to generate data & tests
+Home-page: http://pypi.python.org/pypi/PGen/
+Author: Vladislav Belov
+Author-email: vladislavbelovdev@gmail.com
+License: LICENSE.txt
+Description: ===========
+        PGen v0.2.1
+        ===========
+        
+        PGen provides generating of data and tests with given
+        format (numbers, string, graphs, etc).
+        PGEN IS STILL IN ACTIVE DEVELOPMENT AND CONTAINS
+        BUGS. If you find a bug please file a report in the
+        `issues section <https://github.com/vladislavbelov/PGen/issues>`_.
+        
+        Features:
+        +++++++++
+        
+        -  Input format is JSON-text or object
+        -  Unlimited depth of data
+        -  Pure python without dependencies
+        -  Basic types generation (int, double, string)
+        -  Generation of complex types (graph, tree, container)
+        
+        Installation:
+        +++++++++++++
+        
+        ::
+            pip install PGen
+        
+        Documentation:
+        ++++++++++++++
+        
+        Basic types:
+        
+        -  int
+        -  double
+        -  string
+        
+        Complex types:
+        
+        -  pair
+        -  container
+        -  array
+        -  tree
+        -  graph
+        
+        Will be extended soon...
+        
+        Examples:
+        +++++++++
+        
+        Typical usage often looks like this::
+        
+            #!/usr/bin/env python
+        
+            from pgen.generator import Generator
+        
+            data_description = {
+                'seed': 42,
+                'count': 3,
+                'format': {
+                    'name': 'N',
+                    'type': 'int',
+                    'from': 10,
+                    'to': 100
+                },
+                'output': {
+                    'type': 'file',
+                    'format': 'tests/{0:03d}.dat',
+                    'start_index': 3
+                }
+            }
+        
+            generator = Generator(data_description)
+            generator.write()
+        
+        Using variable name::
+        
+            #!/usr/bin/env python
+        
+            from pgen.generator import Generator
+        
+            data_description = {
+                'seed': 42,
+                'count': 3,
+                'format': {
+                    'type': 'container',
+                    'elements': [
+                        {'name': 'n', 'type': 'int', 'from': 3, 'to': 15},
+                        {
+                            'type': 'array', 'length': 'n', 'subelement': {
+                                'type': 'int',
+                                'from': 0,
+                                'to': 1
+                            }
+                        }
+                    ]
+                },
+                'output': {
+                    'type': 'file',
+                    'format': 'tests/y_{0:03d}.dat',
+                    'start_index': 3
+                }
+            }
+        
+            generator = Generator(data_description)
+            generator.write()
+        
+        String patterns::
+        
+            #!/usr/bin/env python
+        
+            from pgen.generator import Generator
+        
+            data_description = {
+                'seed': 42,
+                'count': 3,
+                'format': {
+                    'type': 'string',
+                    'length': 32,
+                    'patterns': ['A-B', 'a-b']
+                },
+                'output': {
+                    'type': 'file',
+                    'format': 'test/{0:03d}_out.dat',
+                    'start_index': 3
+                }
+            }
+        
+            generator = Generator(data_description)
+            generator.write()
+Platform: UNKNOWN
